@@ -199,7 +199,7 @@ set(LZMA_SRCS
 )
 
 if(WIN32 AND BUILD_SHARED_LIBS)
-    set(LZMA_SRCS ${LZMA_SRCS} liblzma/liblzma_w32res.rc)
+    set(LZMA_SRCS ${LZMA_SRCS} src/liblzma/liblzma_w32res.rc)
 endif()
 
 configure_file(config.h.cmake config.h @ONLY)
@@ -233,11 +233,13 @@ else()
     add_definitions(-DMYTHREAD_POSIX)
 endif()
 
-if(WIN32)
-    add_library(lzma SHARED ${LZMA_SRCS} liblzma/liblzma_w32res.rc)
-else()
-    add_library(lzma SHARED ${LZMA_SRCS})
-endif()
+add_library(lzma SHARED ${LZMA_SRCS})
+
+set_target_properties(
+    lzma
+    PROPERTIES
+    LINKER_LANGUAGE C
+)
 
 add_library(lzma_static STATIC ${LZMA_SRCS})
 
