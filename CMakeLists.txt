@@ -243,12 +243,14 @@ set_target_properties(
 
 add_library(lzma_static STATIC ${LZMA_SRCS})
 
-set_target_properties(
-    lzma lzma_static
-    PROPERTIES
-    C_STANDARD 99
-    C_STANDARD_REQUIRED 1
-)
+if(NOT MSVC)
+    set_target_properties(
+        lzma lzma_static
+        PROPERTIES
+        C_STANDARD 99
+        C_STANDARD_REQUIRED 1
+    )
+endif()
 
 
 #install(FILES COPYING DESTINATION ${CMAKE_DOC_DIR}/cmliblzma)
